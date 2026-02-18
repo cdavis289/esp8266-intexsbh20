@@ -144,7 +144,7 @@ void MQTTPublisher::loop()
       publishIfDefined(MQTT_TOPIC::WATER_SET, pureSpaIO.getDesiredWaterTempCelsius(), (int)PureSpaIO::UNDEF::USHORT);
 
 #ifdef SERIAL_DEBUG
-      publishIfDefined("pool/telegram/led", pureSpaIO.getRawLedValue(), PureSpaIO::UNDEF::USHORT);
+      publishIfDefined("spa/telegram/led", pureSpaIO.getRawLedValue(), PureSpaIO::UNDEF::USHORT);
 #endif
 
       String errorCode = pureSpaIO.getErrorCode();
@@ -175,7 +175,7 @@ void MQTTPublisher::loop()
       publish(MQTT_TOPIC::RSSI, WiFi.RSSI());
 
 #ifdef SERIAL_DEBUG
-      publish("wifi/heap", ESP.getFreeHeap());
+      publish("spa/wifi/heap", ESP.getFreeHeap());
 #endif
     }
   }
