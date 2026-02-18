@@ -304,42 +304,44 @@ Prepare your MQTT server for a new device.
 
 **Published Topics**
 
- Topic              | Values                 | Unit | Notes
- ------------------ |:----------------------:|:----:| -----------------------------------
- pool/bubble        | on\|off                |      |
- pool/disinfection  | 0\|3\|5\|8             | h    | SJB-HS only, 0 h = off
- pool/filter        | on\|off                |      |
- pool/heater        | on\|standby\|off       |      |
- pool/jet           | on\|off                |      | SJB-HS only
- pool/power         | on\|off                |      |
- pool/water/tempAct | int                    | °C   |
- pool/water/tempSet | int                    | °C   | -99 °C at power up until set
- pool/error         | string                 |      | error message (see manual) or empty
- pool/model         | string                 |      | metadata
- wifi/rssi          | int                    | dBm  |
- wifi/state         | online\|offline\|error |      | last will topic, offline is retained value
- wifi/temp          | int                    | °C   | inside temp of WiFi module case
- wifi/version       | string                 |      | metadata
- wifi/update        | string                 |      | status message
+ Topic                 | Values                 | Unit | Notes
+ --------------------- |:----------------------:|:----:| -----------------------------------
+ spa/bubble            | on\|off                |      |
+ spa/disinfection      | 0\|3\|5\|8             | h    | SJB-HS only, 0 h = off
+ spa/filter            | on\|off                |      |
+ spa/heater            | on\|standby\|off       |      |
+ spa/jet               | on\|off                |      | SJB-HS only
+ spa/power             | on\|off                |      |
+ spa/water/tempAct     | int                    | °C   |
+ spa/water/tempSet     | int                    | °C   | -99 °C at power up until set
+ spa/error             | string                 |      | error message (see manual) or empty
+ spa/model             | string                 |      | metadata
+ spa/telegram/led      | int                    |      | raw LED value (diagnostic)
+ spa/wifi/rssi         | int                    | dBm  |
+ spa/wifi/state        | online\|offline\|error |      | last will topic, offline is retained value
+ spa/wifi/temp         | int                    | °C   | inside temp of WiFi module case
+ spa/wifi/version      | string                 |      | metadata
+ spa/wifi/update       | string                 |      | status message
+ spa/wifi/heap         | int                    | B    | free heap (diagnostic)
 
 The topics will be published once after the connection to the MQTT server is established and
-then only on change except for the topic *wifi/state*, with a change rate limit of 1 per
+then only on change except for the topic *spa/wifi/state*, with a change rate limit of 1 per
 second.
 
 **Subscribed Topics**
 
-| Topic                      | Values     | Unit | Notes
-| -------------------------- |:----------:|:----:| -----------------------------------
-| pool/command/bubble        | on\|off    |      |
-| pool/command/disinfection  | 0\|3\|5\|8 | h    | SJB-HS only, 0 h = off
-| pool/command/filter        | on\|off    |      |
-| pool/command/heater        | on\|off    |      |
-| pool/command/jet           | on\|off    |      | SJB-HS only
-| pool/command/power         | on\|off    |      |
-| pool/command/water/tempSet | 20...40    | °C   |
-| wifi/command/update        | on         |      | start OTA update
+| Topic                         | Values     | Unit | Notes
+| ----------------------------- |:----------:|:----:| -----------------------------------
+| spa/command/bubble            | on\|off    |      |
+| spa/command/disinfection      | 0\|3\|5\|8 | h    | SJB-HS only, 0 h = off
+| spa/command/filter            | on\|off    |      |
+| spa/command/heater            | on\|off    |      |
+| spa/command/jet               | on\|off    |      | SJB-HS only
+| spa/command/power             | on\|off    |      |
+| spa/command/water/tempSet     | 20...40    | °C   |
+| spa/wifi/command/update       | on         |      | start OTA update
 
-The *pool* topics are equivalent to the buttons on the control panel of the PureSpa.
+The *spa* topics are equivalent to the buttons on the control panel of the PureSpa.
 Refer to the user manual for more details.
 
 Wait for the next update of the equivalent published topic after each command and
@@ -347,46 +349,10 @@ use a timeout to detect command failure. The PureSpa control panel can only hand
 one command at a time. The duration for changing the water temperature depends on
 the temperature delta.
 
-If *wifi/state* is *error* you are only allowed to send the command
-*pool/command/power=off*. The PureSpa will continue to beep for a while. To
+If *spa/wifi/state* is *error* you are only allowed to send the command
+*spa/command/power=off*. The PureSpa will continue to beep for a while. To
 clear the error it is necessary to power down the PureSpa.
 
-### WiFi Controller Thermometer
-
-The circuit comes with a NTC sensor for measuring the temperature inside the
-waterproof case. The ESP8266 is said to be rather robust (-40 °C to 125 °C)
-but this way you are able to monitor the case temperature.
-
-It cannot be avoided that the temperature inside a sealed case will be much
-higher than the ambient temperature. For proper heat dissipation the metal
-case of the ESP8266 could be attached to a heat spreader. But your options are
-limited because you need a plastic case for good WiFi reception and electrical
-isolation.
-
-The default settings in the code provide an accuracy of approximately 1 °C
-at room temperature and this should be good enough for most use cases.
-
-If you need a higher accuracy you can calibrate the thermometer by providing the
-following 4 values that should be measured with a mulitmeter with at least 3 digits
-accuracy:
-
-*ESP module not attached to circuit and not powered on:*
-- Re: resistance between ESP module A0 and GND
-- Rt: resistance between ESP8266 A0 and GND
-- Rr: resistance between NTC and GND
-
-*circuit powered on:*
-- Vr: supply voltage at NTC
-
-Insert these values into the thermometer setup command in the INO file:
-
-```C++
- thermometer.setup(Rr, Vr, Rt/Re);
-```
-
-Some ESP modules do not come with a voltage divider for A0 (Re and Rt > 1 MOhm).
-In this case you need to add your own voltage divider because the ESP8266 analog
-input is limited to 1 V.
 
 ### Power On
 
