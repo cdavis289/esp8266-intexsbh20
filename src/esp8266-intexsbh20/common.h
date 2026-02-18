@@ -89,32 +89,33 @@ namespace CONFIG_TAG
 namespace MQTT_TOPIC
 {
   // publish
-  const char BUBBLE[]       = "pool/bubble";
-  const char DISINFECTION[] = "pool/disinfection"; // SJB-HS only
-  const char ERROR[]        = "pool/error";
-  const char FILTER[]       = "pool/filter";
-  const char HEATER[]       = "pool/heater";
-  const char JET[]          = "pool/jet"; // SJB-HS only
-  const char MODEL[]        = "pool/model";
-  const char POWER[]        = "pool/power";
-  const char WATER_ACT[]    = "pool/water/tempAct";
-  const char WATER_SET[]    = "pool/water/tempSet";
-  const char VERSION[]      = "wifi/version";
-  const char IP[]           = "wifi/ip";
-  const char RSSI[]         = "wifi/rssi";
-  const char WIFI_TEMP[]    = "wifi/temp";
-  const char STATE[]        = "wifi/state";
-  const char OTA[]          = "wifi/update";
+  const char BUBBLE[]       = "spa/bubble";
+  const char DISINFECTION[] = "spa/disinfection"; // SJB-HS only
+  const char ERROR[]        = "spa/error";
+  const char FILTER[]       = "spa/filter";
+  const char HEATER[]       = "spa/heater";
+  const char JET[]          = "spa/jet"; // SJB-HS only
+  const char MODEL[]        = "spa/model";
+  const char POWER[]        = "spa/power";
+  const char WATER_ACT[]    = "spa/water/tempAct";
+  const char WATER_SET[]    = "spa/water/tempSet";
+
+  const char VERSION[]      = "spa/wifi/version";
+  const char IP[]           = "spa/wifi/ip";
+  const char RSSI[]         = "spa/wifi/rssi";
+  const char WIFI_TEMP[]    = "spa/wifi/temp";
+  const char STATE[]        = "spa/wifi/state";
+  const char OTA[]          = "spa/wifi/update";
 
   // subscribe
-  const char CMD_BUBBLE[]       = "pool/command/bubble";
-  const char CMD_DISINFECTION[] = "pool/command/disinfection"; // SJB-HS only
-  const char CMD_FILTER[]       = "pool/command/filter";
-  const char CMD_HEATER[]       = "pool/command/heater";
-  const char CMD_JET[]          = "pool/command/jet"; // SJB-HS only
-  const char CMD_POWER[]        = "pool/command/power";
-  const char CMD_WATER[]        = "pool/command/water/tempSet";
-  const char CMD_OTA[]          = "wifi/command/update";
+  const char CMD_BUBBLE[]       = "spa/command/bubble";
+  const char CMD_DISINFECTION[] = "spa/command/disinfection"; // SJB-HS only
+  const char CMD_FILTER[]       = "spa/command/filter";
+  const char CMD_HEATER[]       = "spa/command/heater";
+  const char CMD_JET[]          = "spa/command/jet"; // SJB-HS only
+  const char CMD_POWER[]        = "spa/command/power";
+  const char CMD_WATER[]        = "spa/command/water/tempSet";
+  const char CMD_OTA[]          = "spa/wifi/command/update";
 }
 
 // Languages
